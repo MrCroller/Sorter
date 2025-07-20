@@ -15,7 +15,7 @@ namespace Sorter
 
         public event Action<State> OnChangeState;
 
-        public State CurrentState { get; private set; }
+        public State CurrentState { get; private set; } = State.Menu;
 
         public void ChangeState(State state)
         {

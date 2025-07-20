@@ -11,11 +11,18 @@ namespace Sorter.Draggable
     [RequireComponent(typeof(FigureView))]
     public class DraggableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        [SerializeField] private FigureView figureView;
         private Setting setting;
         private SignalBus signalBus;
         private Vector3 startDragPosition;
         private Camera mainCamera;
         private bool isDragging;
+
+
+        private void OnValidate()
+        {
+            figureView = figureView == null ? GetComponent<FigureView>() : figureView;
+        }
 
         [Inject]
         public void Construct(Setting setting, SignalBus signalBus)
@@ -31,8 +38,8 @@ namespace Sorter.Draggable
         public void OnBeginDrag(PointerEventData eventData)
         {
             isDragging = true;
-            startDragPosition = transform.position;
-            signalBus.Fire(new DragSignal() { isDragged = isDragging, view = GetComponent<FigureView>() });
+            SetStartPosition();
+            signalBus.Fire(new DragSignal() { isDragged = isDragging, view = figureView });
         }
 
         public void OnDrag(PointerEventData eventData)

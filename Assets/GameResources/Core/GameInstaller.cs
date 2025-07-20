@@ -17,7 +17,6 @@ namespace Sorter
 
         public void BindSignals()
         {
-            Container.DeclareSignal<GameStartSignal>();
             Container.DeclareSignal<DropSignal>();
             Container.DeclareSignal<EndLineSignal>();
             Container.DeclareSignal<DragSignal>();

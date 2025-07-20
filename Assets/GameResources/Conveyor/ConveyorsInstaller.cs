@@ -10,23 +10,22 @@ namespace Sorter.Conveyor
 
         public override void InstallBindings()
         {
-            BindSignals();
-
             foreach (var item in convPoints)
             {
                 Container.BindInterfacesAndSelfTo<ConveyorLine>().AsCached().WithArguments(item.transform);
             }
+            BindSignals();
         }
 
         public void BindSignals()
         {
             Container.BindSignal<EndLineSignal>()
                 .ToMethod<ConveyorLine>((line, signal) => line.UnregisterView(signal.view))
-                .FromResolve();
+                .FromResolveAll();
 
             Container.BindSignal<DropSignal>()
                 .ToMethod<ConveyorLine>((line, signal) => line.UnregisterView(signal.view))
-                .FromResolve();
+                .FromResolveAll();
 
             Container.BindSignal<DragSignal>()
                 .ToMethod<ConveyorLine>((line, signal) =>
@@ -36,7 +35,7 @@ namespace Sorter.Conveyor
                     else
                         line.RegisterView(signal.view);
                 })
-                .FromResolve();
+                .FromResolveAll();
         }
     }
 }

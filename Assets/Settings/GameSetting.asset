@@ -18,7 +18,7 @@ MonoBehaviour:
   healthCount: 100
   spawner:
     <DelaySpawn>k__BackingField:
-      min: 2
+      min: 0.5
       max: 3
     <SpeedRange>k__BackingField:
       min: 2
@@ -49,4 +49,4 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 94edfefce4b4e5c498f5ae2f0b6df4fb, type: 3}
     - {fileID: 21300000, guid: 707c6f63801b58c4cb1dc6336956210e, type: 3}
   draggableObject:
-    <ReturnDuration>k__BackingField: 0
+    <ReturnDuration>k__BackingField: 0.2

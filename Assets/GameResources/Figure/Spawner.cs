@@ -12,13 +12,15 @@ namespace Sorter.Figure
         private readonly Settings settings;
         private readonly List<IFactory<FigureView>> factories;
         private readonly List<ConveyorLine> conveyors;
+        private readonly IGameStateHandler gameState;
         private float time;
 
-        public Spawner(Settings settings, List<IFactory<FigureView>> factories, List<ConveyorLine> conveyors)
+        public Spawner(Settings settings, List<IFactory<FigureView>> factories, List<ConveyorLine> conveyors, IGameStateHandler gameState)
         {
             this.settings = settings;
             this.factories = factories;
             this.conveyors = conveyors;
+            this.gameState = gameState;
         }
 
         public void Dispose()
@@ -28,6 +30,8 @@ namespace Sorter.Figure
 
         public void Tick()
         {
+            if (gameState.CurrentState != GameState.State.Play) return;
+
             if (time < 0)
             {
                 time = settings.DelaySpawn.GetRandom();

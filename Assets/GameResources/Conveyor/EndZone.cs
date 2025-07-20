@@ -10,6 +10,7 @@ namespace Sorter.Conveyor
     {
         private SignalBus signalBus;
 
+        [Inject]
         public void Construct(SignalBus signalBus)
         {
             this.signalBus = signalBus;
@@ -21,16 +22,6 @@ namespace Sorter.Conveyor
             {
                 signalBus.Fire(new EndLineSignal() { view = view });
             }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            
         }
     }
 }

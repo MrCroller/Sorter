@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Sorter
 {
@@ -9,18 +10,19 @@ namespace Sorter
         public IReadOnlyCollection<T> ActiveItems => items;
         private readonly List<T> items = new();
         private readonly Queue<T> pool = new();
-
+        private readonly IInstantiator instantiator;
         private readonly T prefab;
         private readonly Transform parent;
 
-        public MonoPool(T prefab, int initialSize, Transform parent = null)
+        public MonoPool(IInstantiator instantiator, T prefab, int initialSize, Transform parent = null)
         {
+            this.instantiator = instantiator;
             this.prefab = prefab;
             this.parent = parent;
 
             for (int i = 0; i < initialSize; i++)
             {
-                T obj = GameObject.Instantiate(prefab, parent);
+                T obj = instantiator.InstantiatePrefabForComponent<T>(prefab, parent);
                 obj.gameObject.SetActive(false);
                 pool.Enqueue(obj);
             }
@@ -41,7 +43,7 @@ namespace Sorter
             }
             else
             {
-                obj = GameObject.Instantiate(prefab, parent);
+                obj = instantiator.InstantiatePrefabForComponent<T>(prefab, parent);
             }
             items.Add(obj);
             return obj;

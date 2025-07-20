@@ -31,6 +31,7 @@ namespace Sorter.Conveyor
 
         public void UnregisterView(FigureView view)
         {
+            if (!views.Contains(view)) return;
             views.Remove(view);
         }
 
