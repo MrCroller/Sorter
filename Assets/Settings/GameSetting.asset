@@ -21,8 +21,8 @@ MonoBehaviour:
       min: 2
       max: 3
     <SpeedRange>k__BackingField:
-      min: 1
-      max: 6
+      min: 2
+      max: 7
   starFactory:
     sprites:
     - {fileID: 21300000, guid: fd836f540744aa645bec7834d888f646, type: 3}
@@ -48,3 +48,5 @@ MonoBehaviour:
     - {fileID: 21300000, guid: a039192d5338343489e9ad8f9e10ec70, type: 3}
     - {fileID: 21300000, guid: 94edfefce4b4e5c498f5ae2f0b6df4fb, type: 3}
     - {fileID: 21300000, guid: 707c6f63801b58c4cb1dc6336956210e, type: 3}
+  draggableObject:
+    <ReturnDuration>k__BackingField: 0

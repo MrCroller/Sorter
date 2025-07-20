@@ -1,6 +1,4 @@
-﻿using Zenject;
-
-namespace Sorter.Figure
+﻿namespace Sorter.Figure
 {
     public class FigureData
     {

@@ -1,4 +1,5 @@
-﻿using Sorter.Figure;
+﻿using Sorter.Draggable;
+using Sorter.Figure;
 using Sorter.Types;
 using UnityEngine;
 using Zenject;
@@ -17,11 +18,14 @@ namespace Sorter
         [SerializeField] private CircleFactory.Setting circleFactory;
         [SerializeField] private TriangleFactory.Setting triFactory;
         [SerializeField] private SquareFactory.Setting squareFactory;
+        [Header("VFX")]
+        [SerializeField] private DraggableObject.Setting draggableObject;
 
         public override void InstallBindings()
         {
             Container.BindInstances(spawner);
             BindFactories();
+            BindVFX();
         }
 
         private void BindFactories()
@@ -30,6 +34,11 @@ namespace Sorter
             Container.BindInstance(circleFactory).WhenInjectedInto<CircleFactory>();
             Container.BindInstance(triFactory).WhenInjectedInto<TriangleFactory>();
             Container.BindInstance(squareFactory).WhenInjectedInto<SquareFactory>();
+        }
+
+        private void BindVFX()
+        {
+            Container.BindInstance(draggableObject);
         }
 
         private void OnValidate()

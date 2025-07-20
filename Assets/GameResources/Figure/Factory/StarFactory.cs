@@ -1,9 +1,4 @@
-﻿using System;
-using Sorter.Types;
-using UnityEngine;
-using Zenject;
-
-namespace Sorter.Figure
+﻿namespace Sorter.Figure
 {
     public class StarFactory : BaseFactory
     {

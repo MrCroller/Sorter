@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sorter
 {
-    public class MonoPool<T> where T : MonoBehaviour
+    public class MonoPool<T> : IDisposable where T : MonoBehaviour
     {
+        public IReadOnlyCollection<T> ActiveItems => items;
+        private readonly List<T> items = new();
         private readonly Queue<T> pool = new();
 
         private readonly T prefab;
@@ -23,6 +26,11 @@ namespace Sorter
             }
         }
 
+        public void Dispose()
+        {
+            pool.Clear();
+        }
+
         public T Get()
         {
             T obj;
@@ -35,12 +43,14 @@ namespace Sorter
             {
                 obj = GameObject.Instantiate(prefab, parent);
             }
+            items.Add(obj);
             return obj;
         }
 
         public void Return(T obj)
         {
             obj.gameObject.SetActive(false);
+            items.Remove(obj);
             pool.Enqueue(obj);
         }
 

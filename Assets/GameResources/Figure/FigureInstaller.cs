@@ -1,6 +1,5 @@
-﻿using Sorter;
-using Sorter.Figure;
-using Sorter.Figure.View;
+﻿using Sorter.Conveyor;
+using Sorter.Signals;
 using UnityEngine;
 using Zenject;
 
@@ -18,6 +17,7 @@ namespace Sorter.Figure
             Container.BindInterfacesTo<Spawner>().AsSingle();
             BinFactories();
             BindMemoryPool();
+            BindSignals();
         }
 
         private void BinFactories()
@@ -30,9 +30,18 @@ namespace Sorter.Figure
 
         private void BindMemoryPool()
         {
-            Container.Bind<MonoPool<FigureView>>()
+            Container.BindInterfacesAndSelfTo<MonoPool<FigureView>>()
                 .AsSingle()
                 .WithArguments(figurePrefab, 30, figureParent);
+        }
+
+        private void BindSignals()
+        {
+            Container.BindSignal<EndLineSignal>()
+                .ToMethod(signal => Container.Resolve<MonoPool<FigureView>>().Return(signal.view));
+
+            Container.BindSignal<DropSignal>()
+                .ToMethod(signal => Container.Resolve<MonoPool<FigureView>>().Return(signal.view));
         }
     }
 }

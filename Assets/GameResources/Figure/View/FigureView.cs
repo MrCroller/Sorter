@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace Sorter.Figure
 {
@@ -10,6 +11,13 @@ namespace Sorter.Figure
 
         public FigureType Type { get; private set; }
         public float Speed { get; private set; }
+        public bool IsDragging { get; private set; }
+
+
+        private void OnValidate()
+        {
+            spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
+        }
 
         public void Construct(FigureType type, float speed, Sprite figure)
         {
