@@ -1,4 +1,4 @@
-﻿using Sorter.Conveyor;
+﻿using Sorter.Belt;
 using Sorter.Signals;
 using UnityEngine;
 using Zenject;
@@ -7,14 +7,14 @@ namespace Sorter.Figure
 {
     internal class FigureInstaller : MonoInstaller
     {
-        [SerializeField] private SpawnPointView[] spawnPoints;
+        [SerializeField] private BeltsLineView[] spawnPoints;
         [SerializeField] private FigureView figurePrefab;
         [SerializeField] private Transform figureParent;
 
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<Spawner>().AsSingle();
+            
             BinFactories();
             BindMemoryPool();
             BindSignals();
@@ -37,8 +37,8 @@ namespace Sorter.Figure
 
         private void BindSignals()
         {
-            Container.BindSignal<EndLineSignal>()
-                .ToMethod(signal => Container.Resolve<MonoPool<FigureView>>().Return(signal.view));
+            Container.BindSignal<ClearSignal>()
+                .ToMethod(signal => Container.Resolve<MonoPool<FigureView>>().Return(signal.View));
 
             Container.BindSignal<DropSignal>()
                 .ToMethod(signal => Container.Resolve<MonoPool<FigureView>>().Return(signal.view));

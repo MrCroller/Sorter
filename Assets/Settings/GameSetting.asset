@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a6e3aa4ea0cfc43b9d7977124731fd, type: 3}
   m_Name: GameSetting
   m_EditorClassIdentifier: 
-  figureCount:
-    min: 50
-    max: 100
-  healthCount: 100
+  player:
+    <BaseHealth>k__BackingField: 30
+    <ScoreToWin>k__BackingField:
+      min: 15
+      max: 30
   spawner:
     <DelaySpawn>k__BackingField:
-      min: 0.5
-      max: 3
+      min: 0.3
+      max: 2
     <SpeedRange>k__BackingField:
       min: 2
       max: 7

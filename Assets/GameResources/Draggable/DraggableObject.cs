@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using Sorter.Belt;
 using Sorter.Figure;
 using Sorter.Signals;
 using UnityEngine;
@@ -8,21 +10,16 @@ using Zenject;
 
 namespace Sorter.Draggable
 {
-    [RequireComponent(typeof(FigureView))]
-    public class DraggableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class DraggableObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDragggable
     {
-        [SerializeField] private FigureView figureView;
+        public bool IsDragging => isDragging;
+
         private Setting setting;
         private SignalBus signalBus;
         private Vector3 startDragPosition;
         private Camera mainCamera;
         private bool isDragging;
 
-
-        private void OnValidate()
-        {
-            figureView = figureView == null ? GetComponent<FigureView>() : figureView;
-        }
 
         [Inject]
         public void Construct(Setting setting, SignalBus signalBus)
@@ -39,7 +36,7 @@ namespace Sorter.Draggable
         {
             isDragging = true;
             SetStartPosition();
-            signalBus.Fire(new DragSignal() { isDragged = isDragging, view = figureView });
+            //signalBus.Fire(new DragSignal() { isDragged = isDragging, view = figureView });
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -55,7 +52,7 @@ namespace Sorter.Draggable
 
             if (TryGetDropZone(out DropZone zone))
             {
-                zone.OnObjectDropped(this);
+                if (!zone.OnObjectDropped(this)) ReturnToStart();
             }
             else
             {
@@ -65,10 +62,13 @@ namespace Sorter.Draggable
 
         private bool TryGetDropZone(out DropZone zone)
         {
-            Collider2D hit = Physics2D.OverlapPoint(transform.position);
-            if (hit && hit.TryGetComponent(out zone)) return true;
-
             zone = null;
+            Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
+            Debug.Log("posChek: " + transform.position);
+            foreach (var hit in hits)
+            {
+                if (hit.TryGetComponent(out zone)) return true;
+            }
             return false;
         }
 

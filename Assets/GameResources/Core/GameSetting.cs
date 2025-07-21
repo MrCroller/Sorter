@@ -1,6 +1,6 @@
 ﻿using Sorter.Draggable;
 using Sorter.Figure;
-using Sorter.Types;
+using Sorter.Player;
 using UnityEngine;
 using Zenject;
 
@@ -10,8 +10,7 @@ namespace Sorter
     public partial class GameSetting : ScriptableObjectInstaller
     {
         [Header("Base")]
-        [SerializeField] private Range<int> figureCount = new() { min = 50, max = 100 };
-        [SerializeField] private int healthCount = 100;
+        [SerializeField] private PlayerData.Settings player;
         [Header("Spawn")]
         [SerializeField] private Spawner.Settings spawner;
         [SerializeField] private StarFactory.Setting starFactory;
@@ -23,7 +22,8 @@ namespace Sorter
 
         public override void InstallBindings()
         {
-            Container.BindInstances(spawner);
+            Container.BindInstance(spawner);
+            Container.BindInstance(player);
             BindFactories();
             BindVFX();
         }

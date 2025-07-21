@@ -17,11 +17,12 @@ namespace Sorter.Draggable
             this.signalBus = signalBus;
         }
 
-        public void OnObjectDropped(DraggableObject obj)
+        public bool OnObjectDropped(DraggableObject obj)
         {
             FigureView view = obj.GetComponent<FigureView>();
-            if (view.Type != type) return;
+            if (view.Type != type) return false;
             signalBus.Fire(new DropSignal() { view = view });
+            return true;
         }
     }
 }

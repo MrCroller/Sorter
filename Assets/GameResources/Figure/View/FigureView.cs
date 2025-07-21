@@ -1,6 +1,6 @@
 ﻿using System;
+using Sorter.Belt;
 using UnityEngine;
-using Zenject;
 
 namespace Sorter.Figure
 {
@@ -10,8 +10,10 @@ namespace Sorter.Figure
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         public FigureType Type { get; private set; }
-        public float Speed { get; private set; }
         public bool IsDragging { get; private set; }
+
+        public IItemOnBelt ItemBelt => itemBelt;
+        private ItemOnBelt itemBelt;
 
 
         private void OnValidate()
@@ -19,10 +21,14 @@ namespace Sorter.Figure
             spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         }
 
-        public void Construct(FigureType type, float speed, Sprite figure)
+        private void Awake()
+        {
+            TryGetComponent(out itemBelt);
+        }
+
+        public void Construct(FigureType type, Sprite figure)
         {
             Type = type;
-            Speed = speed;
             spriteRenderer.sprite = figure;
         }
 

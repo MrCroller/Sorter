@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sorter.Conveyor;
+using Sorter.Belt;
 using Sorter.Types;
 using UnityEngine;
 using Zenject;
@@ -25,7 +25,6 @@ namespace Sorter.Figure
         {
             var view = pool.Get();
             view.Construct(Type,
-                spawnSetting.SpeedRange.GetRandom(),
                 setting.sprites.GetRandom());
             return view;
         }

@@ -33,6 +33,7 @@ namespace Sorter
 
     public interface IChangeGameState
     {
+        GameState.State CurrentState { get; }
         void ChangeState(GameState.State state);
     }
 }

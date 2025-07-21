@@ -13,13 +13,20 @@ namespace Sorter
 
             SignalBusInstaller.Install(Container);
             BindSignals();
+
+            Container.BindInterfacesTo<Spawner>().AsSingle();
         }
 
         public void BindSignals()
         {
+            Container.DeclareSignal<IClearSignal>();
+            Container.DeclareSignal<IEndGame>();
             Container.DeclareSignal<DropSignal>();
-            Container.DeclareSignal<EndLineSignal>();
+            Container.DeclareSignal<ClearSignal>();
             Container.DeclareSignal<DragSignal>();
+            Container.DeclareSignal<LoseGame>();
+            Container.DeclareSignal<WinGame>();
+            Container.DeclareSignal<EndOfBeltSignal>();
         }
     }
 }

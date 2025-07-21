@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sorter.Conveyor;
+using Sorter.Belt;
+using Sorter.Figure;
 using Sorter.Types;
 using UnityEngine;
 using Zenject;
 
-namespace Sorter.Figure
+namespace Sorter
 {
     public class Spawner : ITickable, IDisposable
     {
         private readonly Settings settings;
         private readonly List<IFactory<FigureView>> factories;
-        private readonly List<ConveyorLine> conveyors;
+        private readonly List<BeltLine> conveyors;
         private readonly IGameStateHandler gameState;
         private float time;
 
-        public Spawner(Settings settings, List<IFactory<FigureView>> factories, List<ConveyorLine> conveyors, IGameStateHandler gameState)
+        public Spawner(Settings settings, List<IFactory<FigureView>> factories, List<BeltLine> conveyors, IGameStateHandler gameState)
         {
             this.settings = settings;
             this.factories = factories;
@@ -36,7 +37,8 @@ namespace Sorter.Figure
             {
                 time = settings.DelaySpawn.GetRandom();
                 var view = factories.GetRandom().Create();
-                conveyors.GetRandom().RegisterView(view);
+                if (view.ItemBelt != null)
+                    conveyors.GetRandom().RegisterView(view.ItemBelt);
             }
             time -= Time.deltaTime;
         }
